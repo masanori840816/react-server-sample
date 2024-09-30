@@ -1,7 +1,6 @@
 import express from "express";
-import {promises as fs} from "fs";
+import { loadSettings } from "./appSettings";
 import path from "path";
-import { AppSettings, loadSettings } from "./appSettings";
 
 const port = 3000;
 const app = express();
@@ -12,8 +11,12 @@ loadSettings(rootDir)
     app.use(express.json());
     app.use(express.static("clients/dist"));
     app.use(express.static(settings.pointCloudDir))
-    app.get("/", (req, res) => {
-        res.sendFile(path.join(rootDir, "clients/public/main.page.html"))
+    app.get("/pointclouds", (_, res) => {
+        const result = { succeeded: true, errorMessage: "nothing" };
+        res.json(result);
+    });
+    app.get("/", (_, res) => {
+        res.sendFile(path.join(rootDir, "clients/dist/index.html"))
         });
     app.listen(port, () => {
         console.log(`Example app listening at http://localhost:${port}`)
