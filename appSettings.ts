@@ -3,7 +3,8 @@ import {promises as fs} from "fs";
 import path from "path";
 
 export interface AppSettings {
-    pointCloudDir: string
+    pointCloudDir: string,
+    pictureDir: string,
 }
 export async function loadSettings(rootDir: string): Promise<AppSettings> {
     const filePath = path.join(rootDir, "appsettings.json");
